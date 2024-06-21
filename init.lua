@@ -151,11 +151,6 @@ require("lazy").setup({
 	-- "gc" to comment visual regions/lines
 	{ "numToStr/Comment.nvim", opts = {} },
 
-	-- Here is a more advanced example where we pass configuration
-	-- options to `gitsigns.nvim`. This is equivalent to the following Lua:
-	--    require('gitsigns').setup({ ... })
-	--
-	-- See `:help gitsigns` to understand what the configuration keys do
 	{ -- Adds git related signs to the gutter, as well as utilities for managing changes
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -169,22 +164,7 @@ require("lazy").setup({
 		},
 	},
 
-	-- NOTE: Plugins can also be configured to run Lua code when they are loaded.
-	--
-	-- This is often very useful to both group configuration, as well as handle
-	-- lazy loading plugins that don't need to be loaded immediately at startup.
-	--
-	-- For example, in the following configuration, we use:
-	--  event = 'VimEnter'
-	--
-	-- which loads which-key before all the UI elements are loaded. Events can be
-	-- normal autocommands events (`:help autocmd-events`).
-	--
-	-- Then, because we use the `config` key, the configuration only runs
-	-- after the plugin has been loaded:
-	--  config = function() ... end
-
-	{ -- Useful plugin to show you pending keybinds.
+	{
 		"folke/which-key.nvim",
 		event = "VimEnter", -- Sets the loading event to 'VimEnter'
 		config = function() -- This is the function that runs, AFTER loading
@@ -206,13 +186,6 @@ require("lazy").setup({
 			}, { mode = "v" })
 		end,
 	},
-
-	-- NOTE: Plugins can specify dependencies.
-	--
-	-- The dependencies are proper plugin specifications as well - anything
-	-- you do for a plugin at the top level, you can do for a dependency.
-	--
-	-- Use the `dependencies` key to specify the dependencies of a particular plugin
 
 	{ -- Fuzzy Finder (files, lsp, etc)
 		"nvim-telescope/telescope.nvim",
@@ -275,7 +248,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 			vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
-			-- [[ start of additional custom keymaps ]]
+			-- [[ start of additional custom keymaps for telescope ]]
 			vim.keymap.set("n", "<leader>cs", builtin.colorscheme, { desc = "[C]olor [S]cheme" })
 
 			-- Slightly advanced example of overriding default behavior and theme
@@ -435,10 +408,6 @@ require("lazy").setup({
 				end,
 			})
 
-			-- LSP servers and clients are able to communicate to each other what features they support.
-			--  By default, Neovim doesn't support everything that is in the LSP specification.
-			--  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-			--  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 			--  - settings (table): Override the default settings passed when initializing the server.
@@ -449,12 +418,7 @@ require("lazy").setup({
 				pyright = {},
 				rust_analyzer = {},
 				solargraph = {},
-				-- Some languages (like typescript) have entire language plugins that can be useful:
-				--    https://github.com/pmizio/typescript-tools.nvim
-				--
-				-- But for many setups, the LSP (`tsserver`) will work just fine
-				-- tsserver = {},
-				--
+				tsserver = {},
 
 				lua_ls = {
 					-- cmd = {...},
@@ -466,17 +430,12 @@ require("lazy").setup({
 								callSnippet = "Replace",
 							},
 							-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-							-- diagnostics = { disable = { 'missing-fields' } },
+							diagnostics = { disable = { "missing-fields" } },
 						},
 					},
 				},
 			}
 
-			-- Ensure the servers and tools above are installed
-			--  To check the current status of installed tools and/or manually install
-			--  other tools, you can run
-			--    :Mason
-			--
 			--  You can press `g?` for help in this menu.
 			require("mason").setup()
 
@@ -531,11 +490,11 @@ require("lazy").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
-				-- python = { "isort", "black" },
+				python = { "isort", "black" },
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				-- javascript = { { "prettierd", "prettier" } },
+				javascript = { { "prettierd", "prettier" } },
 			},
 		},
 	},
@@ -544,7 +503,6 @@ require("lazy").setup({
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
 		dependencies = {
-			-- Snippet Engine & its associated nvim-cmp source
 			{
 				"L3MON4D3/LuaSnip",
 				build = (function()
@@ -590,10 +548,6 @@ require("lazy").setup({
 				},
 				completion = { completeopt = "menu,menuone,noinsert" },
 
-				-- For an understanding of why these mappings were
-				-- chosen, you will need to read `:help ins-completion`
-				--
-				-- No, but seriously. Please read `:help ins-completion`, it is really good!
 				mapping = cmp.mapping.preset.insert({
 					-- Select the [n]ext item
 					["<C-n>"] = cmp.mapping.select_next_item(),
@@ -651,22 +605,33 @@ require("lazy").setup({
 		end,
 	},
 
+	-- [[ COLORSCHEMES ]]
+
 	{
-		-- Remove or comment out the Tokyo Night theme if you're not using it
-		-- {
-		--     "folke/tokyonight.nvim",
-		--     priority = 1,
-		--     init = function()
-		--         vim.cmd.colorscheme("tokyonight")
-		--         vim.cmd.hi("Comment gui=none")
-		--     end,
-		-- },
+		-- github dark theme configuration
+		{
+			"vv9k/vim-github-dark",
+			priority = 1, -- lowest priority
+			init = function()
+				vim.cmd.colorscheme("ghdark")
+				vim.cmd.hi("Comment gui=none")
+			end,
+		},
+
+		{
+			"folke/tokyonight.nvim",
+			priority = 2,
+			init = function()
+				vim.cmd.colorscheme("tokyonight")
+				vim.cmd.hi("Comment gui=none")
+			end,
+		},
 
 		-- Rose Pine configuration
 		{
 			"rose-pine/neovim",
 			name = "rose-pine",
-			priority = 2,
+			priority = 3, -- highest priority
 			config = function()
 				require("rose-pine").setup({
 					variant = "auto",
@@ -781,7 +746,32 @@ require("lazy").setup({
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		opts = {
-			ensure_installed = { "bash", "c", "diff", "html", "lua", "luadoc", "markdown", "vim", "vimdoc" },
+			ignore_install = { "ejs" },
+			ensure_installed = {
+				"bash",
+				"c",
+				"cpp",
+				"diff",
+				"html",
+				"lua",
+				"markdown",
+				"vim",
+				"ejs",
+				"css",
+				"json",
+				"yaml",
+				"typescript",
+				"javascript",
+				"ruby",
+				"python",
+				"rust",
+				"go",
+				"java",
+				"php",
+				"graphql",
+				"toml",
+				"svelte",
+			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,
 			highlight = {
