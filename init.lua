@@ -59,7 +59,7 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
--- general keymaps (Custom -- Not from kickstart)
+-- custom extra mappings
 vim.keymap.set("n", "<leader>po", "<cmd>Vex<CR>", { desc = "[P]roject [O]pen vertically" })
 vim.keymap.set("n", "<leader><CR>", "<cmd>so ~/.config/nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader>Y", 'gg"+yG', { silent = true })
@@ -69,6 +69,8 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>u", "<cmd>UndotreeToggle<CR>", { desc = "[U]ndo tree toggle" })
 vim.keymap.set("v", "<leader>p", '"_dP', { noremap = true }) -- replace what is selected with the yanked text from default register
+vim.keymap.set("n", "<leader>j", ":cnext<CR>", { noremap = true, silent = true, desc = "Next quickfix item" })
+vim.keymap.set("n", "<leader>k", ":cprev<CR>", { noremap = true, silent = true, desc = "Previous quickfix item" })
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -628,7 +630,7 @@ require("lazy").setup({
 					styles = {
 						bold = true,
 						italic = true,
-						transparency = false,
+						transparency = true,
 					},
 
 					groups = {
