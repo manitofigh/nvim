@@ -6,6 +6,8 @@ vim.g.maplocalleader = " "
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
+vim.opt.termguicolors = true
+
 -- [[ Setting options ]]
 -- NOTE: You can change these options as you wish!
 
@@ -616,7 +618,7 @@ require("lazy").setup({
 			priority = 3, -- highest priority
 			config = function()
 				require("rose-pine").setup({
-					variant = "auto",
+					variant = "dark",
 					dark_variant = "main",
 					dim_inactive_windows = false,
 					extend_background_behind_borders = true,
@@ -629,7 +631,7 @@ require("lazy").setup({
 
 					styles = {
 						bold = true,
-						italic = true,
+						italic = false,
 						transparency = true,
 					},
 
