@@ -12,6 +12,16 @@ sudo apt install git curl unzip nodejs npm python3 python3-pip ripgrep
 sudo dnf install git curl unzip nodejs npm python3 python3-pip ripgrep
 ```
 
+### Linux (Arch)
+```bash
+sudo pacman -S git curl unzip nodejs npm python3 python-pip ripgrep
+```
+
+### Linux (CentOS)
+```bash
+sudo yum install git curl unzip nodejs npm python3 python3-pip ripgrep
+```
+
 ### macOS
 (Assuming brew is installed)
 ```bash
@@ -27,12 +37,22 @@ brew install neovim
 
 ### Linux
 <strong>Choose between `.bashrc` and `.zshrc` depending on your shell.</strong>
+#### Ubuntu/Debian
 ```bash
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-tar xzf nvim-linux64.tar.gz
-sudo mv nvim-linux64 /opt/
-echo 'export PATH="$PATH:/opt/nvim-linux64/bin"' >> ~/<.bashrc|.zshrc>
-source ~/<.bashrc|.zshrc>
+sudo apt install neovim
+```
+#### Fedora
+```bash
+sudo dnf install neovim
+```
+#### Arch
+```bash
+sudo pacman -S neovim
+```
+#### CentOS
+```bash
+sudo yum install epel-release
+sudo yum install neovim
 ```
 
 ## Plugin Dependencies
