@@ -6,8 +6,6 @@ vim.g.maplocalleader = " "
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
-vim.opt.termguicolors = true
-
 -- [[ Setting options ]]
 -- NOTE: You can change these options as you wish!
 
@@ -234,6 +232,7 @@ require("lazy").setup({
 		},
 		config = function()
 			-- [[ Configure Telescope ]]
+			-- Use this function in your Telescope colorscheme picker setup
 			-- See `:help telescope` and `:help telescope.setup()`
 			require("telescope").setup({
 				-- You can put your default mappings / updates / etc. in here
@@ -655,8 +654,8 @@ require("lazy").setup({
 			priority = 3, -- highest priority
 			config = function()
 				require("rose-pine").setup({
-					variant = "dark",
-					dark_variant = "main",
+					variant = "main",
+					dark_variant = "auto",
 					dim_inactive_windows = false,
 					extend_background_behind_borders = true,
 
@@ -672,37 +671,37 @@ require("lazy").setup({
 						transparency = true,
 					},
 
-					groups = {
-						border = "muted",
-						link = "iris",
-						panel = "surface",
-
-						error = "love",
-						hint = "iris",
-						info = "foam",
-						note = "pine",
-						todo = "rose",
-						warn = "gold",
-
-						git_add = "foam",
-						git_change = "rose",
-						git_delete = "love",
-						git_dirty = "rose",
-						git_ignore = "muted",
-						git_merge = "iris",
-						git_rename = "pine",
-						git_stage = "iris",
-						git_text = "rose",
-						git_untracked = "subtle",
-
-						h1 = "iris",
-						h2 = "foam",
-						h3 = "rose",
-						h4 = "gold",
-						h5 = "pine",
-						h6 = "foam",
-					},
-
+					-- groups = {
+					-- 	border = "muted",
+					-- 	link = "iris",
+					-- 	panel = "surface",
+					--
+					-- 	error = "love",
+					-- 	hint = "iris",
+					-- 	info = "foam",
+					-- 	note = "pine",
+					-- 	todo = "rose",
+					-- 	warn = "gold",
+					--
+					-- 	git_add = "foam",
+					-- 	git_change = "rose",
+					-- 	git_delete = "love",
+					-- 	git_dirty = "rose",
+					-- 	git_ignore = "muted",
+					-- 	git_merge = "iris",
+					-- 	git_rename = "pine",
+					-- 	git_stage = "iris",
+					-- 	git_text = "rose",
+					-- 	git_untracked = "subtle",
+					--
+					-- 	h1 = "iris",
+					-- 	h2 = "foam",
+					-- 	h3 = "rose",
+					-- 	h4 = "gold",
+					-- 	h5 = "pine",
+					-- 	h6 = "foam",
+					-- },
+					--
 					highlight_groups = {
 						-- Comment = { fg = "foam" },
 						-- VertSplit = { fg = "muted", bg = "muted" },
@@ -719,12 +718,12 @@ require("lazy").setup({
 	},
 
 	-- Highlight todo, notes, etc in comments
-	{
-		"folke/todo-comments.nvim",
-		event = "VimEnter",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = { signs = false },
-	},
+	-- {
+	-- 	"folke/todo-comments.nvim",
+	-- 	event = "VimEnter",
+	-- 	dependencies = { "nvim-lua/plenary.nvim" },
+	-- 	opts = { signs = false },
+	-- },
 
 	{ -- Collection of various small independent plugins/modules
 		"echasnovski/mini.nvim",
