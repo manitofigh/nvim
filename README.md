@@ -23,7 +23,7 @@ sudo yum install git curl unzip nodejs npm python3 python3-pip ripgrep
 ```
 
 ### macOS
-(Assuming (brew)[https://brew.sh/] is installed)
+(Assuming [brew](https://brew.sh/) is installed)
 ```bash
 brew install git curl unzip node python ripgrep
 ```
