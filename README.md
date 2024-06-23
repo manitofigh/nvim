@@ -36,7 +36,6 @@ brew install neovim
 ```
 
 ### Linux
-<strong>Choose between `.bashrc` and `.zshrc` depending on your shell.</strong>
 #### Ubuntu/Debian
 ```bash
 sudo apt install neovim
