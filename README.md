@@ -26,6 +26,7 @@ brew install neovim
 ```
 
 ### Linux
+* Choose between `.bashrc` and `.zshrc` depending on your shell.*
 ```bash
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
 tar xzf nvim-linux64.tar.gz
@@ -43,7 +44,7 @@ pip3 install pynvim
 ## Configuration
 ```bash
 Clone the configuration:
-git clone https://github.com/your-repo/neovim-config.git ~/.config/nvim
+git clone https://github.com/manitofigh/nvim.git ~/.config/nvim
 ```
 
 ## Final Steps
