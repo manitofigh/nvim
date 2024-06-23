@@ -74,6 +74,6 @@ git clone https://github.com/manitofigh/nvim.git ~/.config/nvim
 
 ## Note for Windows Users
 
-I know this is not going to be for myself (I'd just give up and use VSCode on windows), but in case a future friend decided to start with my conf on their win machine:
+I'd personally give up and use VSCode on Windows, but in case a future friend decided to start with my conf on their win machine:
 </br>
 Windows setup may differ and some plugins might not work as expected. You are probably better off using cygwin and some package manager for windows like scoop or chocolatey.
