@@ -1,23 +1,24 @@
 Literally just my `init.lua` for nvim configuration in case I wanted to use it on another machine.
 ## Prerequisites
 
-### Linux (Debian/Ubuntu)
+### Linux
+#### Ubuntu/Debian
 ```bash
 sudo apt update
 sudo apt install git curl unzip nodejs npm python3 python3-pip ripgrep
 ```
 
-### Linux (Fedora)
+#### Fedora
 ```bash
 sudo dnf install git curl unzip nodejs npm python3 python3-pip ripgrep
 ```
 
-### Linux (Arch)
+#### Arch
 ```bash
 sudo pacman -S git curl unzip nodejs npm python3 python-pip ripgrep
 ```
 
-### Linux (CentOS)
+#### CentOS
 ```bash
 sudo yum install git curl unzip nodejs npm python3 python3-pip ripgrep
 ```
