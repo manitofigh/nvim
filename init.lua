@@ -158,7 +158,11 @@ require("lazy").setup({
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
-		opts = {},
+		opts = {
+			whitespace = {
+				remove_blankline_trail = false, -- Keep indentation on blank lines
+			},
+		},
 	},
 
 	"tpope/vim-fugitive", -- Git commands in nvim
