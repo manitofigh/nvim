@@ -61,8 +61,8 @@ pip3 install pynvim
 ```
 
 ## Configuration
-```bash
 Clone the configuration:
+```bash
 git clone https://github.com/manitofigh/nvim.git ~/.config/nvim
 ```
 
