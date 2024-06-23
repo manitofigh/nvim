@@ -26,7 +26,7 @@ brew install neovim
 ```
 
 ### Linux
-** Choose between `.bashrc` and `.zshrc` depending on your shell. **
+<strong>Choose between `.bashrc` and `.zshrc` depending on your shell.</strong>
 ```bash
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
 tar xzf nvim-linux64.tar.gz
