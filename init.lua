@@ -63,7 +63,7 @@ vim.opt.scrolloff = 10
 
 -- custom extra mappings
 vim.keymap.set("n", "<leader>po", "<cmd>Vex<CR>", { desc = "[P]roject [O]pen vertically" })
-vim.keymap.set("n", "<leader><CR>", "<cmd>so ~/.config/nvim/init.lua<CR>")
+vim.keymap.set("n", "<leader><CR>", "<cmd>Lazy sync<CR>")
 vim.keymap.set("n", "<leader>Y", 'gg"+yG', { silent = true })
 vim.keymap.set("v", "<leader>y", '"+y')
 vim.keymap.set("v", "<leader>Y", 'gg"+yG', { silent = true })
@@ -127,6 +127,39 @@ require("lazy").setup({
 	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 
 	"mbbill/undotree", -- Undo tree
+
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		dependencies = "nvim-treesitter/nvim-treesitter",
+		opts = {
+			enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+			max_lines = 10, -- How many lines the window should span. Values <= 0 mean no limit.
+			trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+			patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+				-- For all filetypes
+				-- Note that setting an entry here replaces all other patterns for this entry.
+				-- By setting the 'default' entry below, you can control which nodes you want to
+				-- appear in the context window.
+				default = {
+					"class",
+					"function",
+					"method",
+					"for",
+					"while",
+					"if",
+					"switch",
+					"case",
+				},
+			},
+			zindex = 20, -- The Z-index of the context window
+		},
+	},
+
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		opts = {},
+	},
 
 	"tpope/vim-fugitive", -- Git commands in nvim
 
