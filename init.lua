@@ -16,6 +16,12 @@ vim.opt.relativenumber = true
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
 
+-- folding
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldenable = false -- Disable folding at startup
+vim.opt.foldlevel = 99 -- Set a high fold level to keep folds open by default
+
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
