@@ -18,7 +18,7 @@ sudo dnf install git curl unzip nodejs npm python3 python3-pip ripgrep
 sudo pacman -S git curl unzip nodejs npm python3 python-pip ripgrep
 ```
 
-#### CentOS
+#### CentOS/RHEL
 ```bash
 sudo yum install git curl unzip nodejs npm python3 python3-pip ripgrep
 ```
@@ -49,7 +49,7 @@ sudo dnf install neovim
 ```bash
 sudo pacman -S neovim
 ```
-#### CentOS
+#### CentOS/RHEL
 ```bash
 sudo yum install epel-release
 sudo yum install neovim
