@@ -77,6 +77,7 @@ vim.keymap.set("n", "<leader>u", "<cmd>UndotreeToggle<CR>", { desc = "[U]ndo tre
 vim.keymap.set("v", "<leader>p", '"_dP', { noremap = true }) -- replace what is selected with the yanked text from default register
 vim.keymap.set("n", "<leader>j", ":cnext<CR>", { noremap = true, silent = true, desc = "Next quickfix item" })
 vim.keymap.set("n", "<leader>k", ":cprev<CR>", { noremap = true, silent = true, desc = "Previous quickfix item" })
+vim.keymap.set("n", "<leader>st", ":NvimTreeToggle<CR>", { desc = "[S]idebar [T]oggle" })
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -168,6 +169,17 @@ require("lazy").setup({
 			},
 		},
 	},
+
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup {}
+    end,
+  },
 
 	"tpope/vim-fugitive", -- Git commands in nvim
 
