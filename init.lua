@@ -1,4 +1,3 @@
--- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -177,11 +176,77 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
     },
     config = function()
-      require("nvim-tree").setup {}
-    end,
-  },
+      require("nvim-tree").setup({
+        renderer = {
+          icons = {
+            webdev_colors = true,
+            git_placement = "before",
+            padding = " ",
+            symlink_arrow = " ➛ ",
+            show = {
+              file = true,
+              folder = true,
+              folder_arrow = true,
+              git = true,
+            },
+            glyphs = {
+              default = "",
+              symlink = "",
+              folder = {
+                arrow_closed = "📁",
+                arrow_open = "📂",
+                default = "",
+                open = "",
+                empty = "",
+                empty_open = "",
+                symlink = "",
+                symlink_open = "",
+              },
+              git = {
+                unstaged = "✗",
+                staged = "✓",
+                unmerged = "",
+                renamed = "➜",
+                untracked = "★",
+                deleted = "",
+                ignored = "◌",
+              },
+            },
+          },
+          special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+          symlink_destination = true,
+        },
+        hijack_directories = {
+          enable = true,
+          auto_open = false,
+        },
+        git = {
+          enable = true,
+          ignore = false,
+          show_on_dirs = true,
+          show_on_open_dirs = true,
+          timeout = 400,
+        },
+        open_on_tab = false,
+        actions = {
+          open_file = {
+            quit_on_open = true,
+          },
+        },
+      })
 
-	"tpope/vim-fugitive", -- Git commands in nvim
+      vim.api.nvim_create_autocmd("VimEnter", {
+        callback = function(data)
+          local directory = vim.fn.isdirectory(data.file) == 1
+          if directory then
+            require("nvim-tree.api").tree.open()
+          end
+        end,
+      })
+    end,
+  },	
+
+  "tpope/vim-fugitive", -- Git commands in nvim
 
 	"github/copilot.vim",
 
