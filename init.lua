@@ -78,8 +78,11 @@ vim.keymap.set("n", "<leader>j", ":cnext<CR>", { noremap = true, silent = true, 
 vim.keymap.set("n", "<leader>k", ":cprev<CR>", { noremap = true, silent = true, desc = "Previous quickfix item" })
 vim.keymap.set("n", "<leader>st", ":NvimTreeToggle<CR>", { desc = "[S]idebar [T]oggle" })
 vim.keymap.set("n", "<leader>D", ":%d<CR>", { noremap = true, silent = true, desc = "[D]elete whole content" })
+vim.keymap.set("n", "<leader>W", ":w<CR>", { noremap = true, silent = true, desc = "[W]rite" })
+vim.keymap.set("n", "<leader>X", ":x<CR>", { noremap = true, silent = true, desc = "E[x]it" })
+vim.keymap.set("n", "<leader>Q", ":q<CR>", { noremap = true, silent = true, desc = "[Q]uit" })
 
--- Set highlight on search, but clear on pressing <Esc> in normal mode
+-- Set highlight on earch, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set("n", "<leader>no", "<cmd>nohlsearch<CR>", { desc = "[NO] highlight" })
 
