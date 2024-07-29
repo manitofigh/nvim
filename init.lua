@@ -784,6 +784,7 @@ require("lazy").setup({
 					-- rest if any
 				})
 				vim.cmd("colorscheme catppuccin")
+        vim.cmd("highlight Normal guibg=#000000")
 			end,
 		}
 	},
