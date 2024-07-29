@@ -710,15 +710,15 @@ require("lazy").setup({
 		end,
 	},
 
-	-- [[ COLORSCHEMES ]]
+-- [[ COLORSCHEMES ]]
 
 	{
 		-- github dark theme configuration
 		{
 			"vv9k/vim-github-dark",
-			priority = 1, -- lowest priority
+			priority = 1,
 			init = function()
-				vim.cmd.colorscheme("ghdark")
+				-- vim.cmd.colorscheme("ghdark")
 				vim.cmd.hi("Comment gui=none")
 			end,
 		},
@@ -727,7 +727,7 @@ require("lazy").setup({
 			"folke/tokyonight.nvim",
 			priority = 2,
 			init = function()
-				vim.cmd.colorscheme("tokyonight")
+				-- vim.cmd.colorscheme("tokyonight")
 				vim.cmd.hi("Comment gui=none")
 			end,
 		},
@@ -736,7 +736,7 @@ require("lazy").setup({
 		{
 			"rose-pine/neovim",
 			name = "rose-pine",
-			priority = 3, -- highest priority
+			priority = 3, 
 			config = function()
 				require("rose-pine").setup({
 					variant = "main",
@@ -756,37 +756,6 @@ require("lazy").setup({
 						transparency = true,
 					},
 
-					-- groups = {
-					-- 	border = "muted",
-					-- 	link = "iris",
-					-- 	panel = "surface",
-					--
-					-- 	error = "love",
-					-- 	hint = "iris",
-					-- 	info = "foam",
-					-- 	note = "pine",
-					-- 	todo = "rose",
-					-- 	warn = "gold",
-					--
-					-- 	git_add = "foam",
-					-- 	git_change = "rose",
-					-- 	git_delete = "love",
-					-- 	git_dirty = "rose",
-					-- 	git_ignore = "muted",
-					-- 	git_merge = "iris",
-					-- 	git_rename = "pine",
-					-- 	git_stage = "iris",
-					-- 	git_text = "rose",
-					-- 	git_untracked = "subtle",
-					--
-					-- 	h1 = "iris",
-					-- 	h2 = "foam",
-					-- 	h3 = "rose",
-					-- 	h4 = "gold",
-					-- 	h5 = "pine",
-					-- 	h6 = "foam",
-					-- },
-					--
 					highlight_groups = {
 						-- Comment = { fg = "foam" },
 						-- VertSplit = { fg = "muted", bg = "muted" },
@@ -796,12 +765,28 @@ require("lazy").setup({
 						-- Your before_highlight function here
 					end,
 				})
-
-				vim.cmd("colorscheme rose-pine-main")
+				-- vim.cmd("colorscheme rose-pine-main")
 			end,
 		},
-	},
 
+		{
+			"catppuccin/nvim",
+			name = "catppuccin",
+			priority = 4,
+			config = function()
+				require("catppuccin").setup({
+					-- flavour = "mocha", -- You can change this to your preferred flavor
+					-- background = {
+					-- 	light = "latte",
+					-- 	dark = "mocha",
+					-- },
+					transparent_background = false,
+					-- rest if any
+				})
+				vim.cmd("colorscheme catppuccin")
+			end,
+		}
+	},
 	-- Highlight todo, notes, etc in comments
 	-- {
 	-- 	"folke/todo-comments.nvim",
