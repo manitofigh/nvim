@@ -1,7 +1,6 @@
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.g.maplocalleader =  cs
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
@@ -79,8 +78,11 @@ vim.keymap.set("n", "<leader>j", ":cnext<CR>", { noremap = true, silent = true, 
 vim.keymap.set("n", "<leader>k", ":cprev<CR>", { noremap = true, silent = true, desc = "Previous quickfix item" })
 vim.keymap.set("n", "<leader>st", ":NvimTreeToggle<CR>", { desc = "[S]idebar [T]oggle" })
 vim.keymap.set("n", "<leader>D", ":%d<CR>", { noremap = true, silent = true, desc = "[D]elete whole content" })
+vim.keymap.set("n", "<leader>W", ":w<CR>", { noremap = true, silent = true, desc = "[W]rite" })
+vim.keymap.set("n", "<leader>X", ":x<CR>", { noremap = true, silent = true, desc = "E[x]it" })
+vim.keymap.set("n", "<leader>Q", ":q<CR>", { noremap = true, silent = true, desc = "[Q]uit" })
 
--- Set highlight on search, but clear on pressing <Esc> in normal mode
+-- Set highlight on earch, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set("n", "<leader>no", "<cmd>nohlsearch<CR>", { desc = "[NO] highlight" })
 
@@ -290,7 +292,7 @@ require("lazy").setup({
 	-- 		}, { mode = "v" })
 	-- 	end,
 	-- },
-	--
+
 	{ -- Fuzzy Finder (files, lsp, etc)
 		"nvim-telescope/telescope.nvim",
 		event = "VimEnter",
@@ -708,15 +710,15 @@ require("lazy").setup({
 		end,
 	},
 
-	-- [[ COLORSCHEMES ]]
+-- [[ COLORSCHEMES ]]
 
 	{
 		-- github dark theme configuration
 		{
 			"vv9k/vim-github-dark",
-			priority = 1, -- lowest priority
+			priority = 1,
 			init = function()
-				vim.cmd.colorscheme("ghdark")
+				-- vim.cmd.colorscheme("ghdark")
 				vim.cmd.hi("Comment gui=none")
 			end,
 		},
@@ -725,7 +727,7 @@ require("lazy").setup({
 			"folke/tokyonight.nvim",
 			priority = 2,
 			init = function()
-				vim.cmd.colorscheme("tokyonight")
+				-- vim.cmd.colorscheme("tokyonight")
 				vim.cmd.hi("Comment gui=none")
 			end,
 		},
@@ -734,7 +736,7 @@ require("lazy").setup({
 		{
 			"rose-pine/neovim",
 			name = "rose-pine",
-			priority = 3, -- highest priority
+			priority = 3, 
 			config = function()
 				require("rose-pine").setup({
 					variant = "main",
@@ -754,37 +756,6 @@ require("lazy").setup({
 						transparency = true,
 					},
 
-					-- groups = {
-					-- 	border = "muted",
-					-- 	link = "iris",
-					-- 	panel = "surface",
-					--
-					-- 	error = "love",
-					-- 	hint = "iris",
-					-- 	info = "foam",
-					-- 	note = "pine",
-					-- 	todo = "rose",
-					-- 	warn = "gold",
-					--
-					-- 	git_add = "foam",
-					-- 	git_change = "rose",
-					-- 	git_delete = "love",
-					-- 	git_dirty = "rose",
-					-- 	git_ignore = "muted",
-					-- 	git_merge = "iris",
-					-- 	git_rename = "pine",
-					-- 	git_stage = "iris",
-					-- 	git_text = "rose",
-					-- 	git_untracked = "subtle",
-					--
-					-- 	h1 = "iris",
-					-- 	h2 = "foam",
-					-- 	h3 = "rose",
-					-- 	h4 = "gold",
-					-- 	h5 = "pine",
-					-- 	h6 = "foam",
-					-- },
-					--
 					highlight_groups = {
 						-- Comment = { fg = "foam" },
 						-- VertSplit = { fg = "muted", bg = "muted" },
@@ -794,12 +765,28 @@ require("lazy").setup({
 						-- Your before_highlight function here
 					end,
 				})
-
-				vim.cmd("colorscheme rose-pine-main")
+				-- vim.cmd("colorscheme rose-pine-main")
 			end,
 		},
-	},
 
+		{
+			"catppuccin/nvim",
+			name = "catppuccin",
+			priority = 4,
+			config = function()
+				require("catppuccin").setup({
+          -- flavour = "mocha",
+					-- background = {
+					-- 	light = "latte",
+					-- 	dark = "mocha",
+					-- },
+					transparent_background = false,
+					-- rest if any
+				})
+				vim.cmd("colorscheme catppuccin")
+			end,
+		}
+	},
 	-- Highlight todo, notes, etc in comments
 	-- {
 	-- 	"folke/todo-comments.nvim",
