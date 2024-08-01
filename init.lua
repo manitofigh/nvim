@@ -167,8 +167,18 @@ require("lazy").setup({
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		opts = {
-			whitespace = {
-				remove_blankline_trail = false, -- Keep indentation on blank lines
+        indent = {
+            char = "┊", -- This is a thinner character
+            highlight = "IblIndent",
+        },
+        scope = {
+            char = "┊",
+            highlight = "IblScope",
+            show_start = true,
+            show_end = true,
+        },
+        whitespace = {
+			      remove_blankline_trail = false, -- Keep indentation on blank lines
 			},
 		},
 	},
