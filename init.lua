@@ -27,9 +27,9 @@ vim.opt.showmode = false
 -- Sync clipboard between OS and Neovim.
 vim.opt.clipboard = "unnamedplus"
 
--- Set default indentation to 2 spaces
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
+-- default indentation 8
+vim.opt.tabstop = 8
+vim.opt.shiftwidth = 8
 vim.opt.expandtab = true
 
 -- Enable break indent
