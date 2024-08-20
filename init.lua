@@ -27,9 +27,9 @@ vim.opt.showmode = false
 -- Sync clipboard between OS and Neovim.
 vim.opt.clipboard = "unnamedplus"
 
--- Set default indentation to 2 spaces
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
+-- default indentation 8
+vim.opt.tabstop = 8
+vim.opt.shiftwidth = 8
 vim.opt.expandtab = true
 
 -- Enable break indent
@@ -77,7 +77,7 @@ vim.keymap.set("v", "<leader>p", '"_dP', { noremap = true }) -- replace what is 
 vim.keymap.set("n", "<leader>j", ":cnext<CR>", { noremap = true, silent = true, desc = "Next quickfix item" })
 vim.keymap.set("n", "<leader>k", ":cprev<CR>", { noremap = true, silent = true, desc = "Previous quickfix item" })
 vim.keymap.set("n", "<leader>st", ":NvimTreeToggle<CR>", { desc = "[S]idebar [T]oggle" })
-vim.keymap.set("n", "<leader>D", ":%d<CR>", { noremap = true, silent = true, desc = "[D]elete whole content" })
+vim.keymap.set("n", "<leader>D", ":%d _<CR>", { noremap = true, silent = true, desc = "[D]elete whole content to blackhole" })
 vim.keymap.set("n", "<leader>W", ":w<CR>", { noremap = true, silent = true, desc = "[W]rite" })
 vim.keymap.set("n", "<leader>X", ":x<CR>", { noremap = true, silent = true, desc = "E[x]it" })
 vim.keymap.set("n", "<leader>Q", ":q<CR>", { noremap = true, silent = true, desc = "[Q]uit" })
