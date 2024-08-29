@@ -27,9 +27,9 @@ vim.opt.showmode = false
 -- Sync clipboard between OS and Neovim.
 vim.opt.clipboard = "unnamedplus"
 
--- default indentation 8
-vim.opt.tabstop = 8
-vim.opt.shiftwidth = 8
+-- default indentation 4
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
 -- Enable break indent
