@@ -5,6 +5,23 @@ vim.g.maplocalleader = " "
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+if vim.fn.has("unix") == 1 then
+	if vim.fn.executable("xclip") == 1 then
+		vim.g.clipboard = {
+			name = "xclip",
+			copy = {
+				["+"] = "xclip -selection clipboard",
+				["*"] = "xclip -selection clipboard",
+			},
+			paste = {
+				["+"] = "xclip -selection clipboard -o",
+				["*"] = "xclip -selection clipboard -o",
+			},
+			cache_enabled = 1,
+		}
+	end
+end
+
 -- [[ Setting options ]]
 -- NOTE: You can change these options as you wish!
 
