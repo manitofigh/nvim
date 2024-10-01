@@ -5,6 +5,23 @@ vim.g.maplocalleader = " "
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+if vim.fn.has("unix") == 1 then
+	if vim.fn.executable("xclip") == 1 then
+		vim.g.clipboard = {
+			name = "xclip",
+			copy = {
+				["+"] = "xclip -selection clipboard",
+				["*"] = "xclip -selection clipboard",
+			},
+			paste = {
+				["+"] = "xclip -selection clipboard -o",
+				["*"] = "xclip -selection clipboard -o",
+			},
+			cache_enabled = 1,
+		}
+	end
+end
+
 -- [[ Setting options ]]
 -- NOTE: You can change these options as you wish!
 
@@ -27,9 +44,9 @@ vim.opt.showmode = false
 -- Sync clipboard between OS and Neovim.
 vim.opt.clipboard = "unnamedplus"
 
--- default indentation 8
-vim.opt.tabstop = 8
-vim.opt.shiftwidth = 8
+-- default indentation 4
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
 -- Enable break indent
@@ -64,7 +81,7 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
--- custom 
+-- custom
 vim.keymap.set("n", "<leader>po", "<cmd>Vex<CR>", { desc = "[P]roject [O]pen vertically" })
 vim.keymap.set("n", "<leader><CR>", "<cmd>Lazy sync<CR>")
 vim.keymap.set("n", "<leader>Y", 'gg"+yG', { silent = true })
@@ -77,7 +94,12 @@ vim.keymap.set("v", "<leader>p", '"_dP', { noremap = true }) -- replace what is 
 vim.keymap.set("n", "<leader>j", ":cnext<CR>", { noremap = true, silent = true, desc = "Next quickfix item" })
 vim.keymap.set("n", "<leader>k", ":cprev<CR>", { noremap = true, silent = true, desc = "Previous quickfix item" })
 vim.keymap.set("n", "<leader>st", ":NvimTreeToggle<CR>", { desc = "[S]idebar [T]oggle" })
-vim.keymap.set("n", "<leader>D", ":%d _<CR>", { noremap = true, silent = true, desc = "[D]elete whole content to blackhole" })
+vim.keymap.set(
+	"n",
+	"<leader>D",
+	":%d _<CR>",
+	{ noremap = true, silent = true, desc = "[D]elete whole content to blackhole" }
+)
 vim.keymap.set("n", "<leader>W", ":w<CR>", { noremap = true, silent = true, desc = "[W]rite" })
 vim.keymap.set("n", "<leader>X", ":x<CR>", { noremap = true, silent = true, desc = "E[x]it" })
 vim.keymap.set("n", "<leader>Q", ":q<CR>", { noremap = true, silent = true, desc = "[Q]uit" })
@@ -153,102 +175,135 @@ require("lazy").setup({
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		opts = {
-        indent = {
-            char = "┊", -- This is a thinner character
-            highlight = "IblIndent",
-        },
-        scope = {
-            char = "┊",
-            highlight = "IblScope",
-            show_start = true,
-            show_end = true,
-        },
-        whitespace = {
-			      remove_blankline_trail = false, -- Keep indentation on blank lines
+			indent = {
+				char = "┊", -- This is a thinner character
+				highlight = "IblIndent",
+			},
+			scope = {
+				char = "┊",
+				highlight = "IblScope",
+				show_start = true,
+				show_end = true,
+			},
+			whitespace = {
+				remove_blankline_trail = false, -- Keep indentation on blank lines
 			},
 		},
 	},
 
-  {
-    "nvim-tree/nvim-tree.lua",
-    version = "*",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      require("nvim-tree").setup({
-        renderer = {
-          icons = {
-            webdev_colors = true,
-            git_placement = "before",
-            padding = " ",
-            symlink_arrow = " ➛ ",
-            show = {
-              file = true,
-              folder = true,
-              folder_arrow = true,
-              git = true,
-            },
-            glyphs = {
-              default = "",
-              symlink = "",
-              folder = {
-                arrow_closed = "📁",
-                arrow_open = "📂",
-                default = "",
-                open = "",
-                empty = "",
-                empty_open = "",
-                symlink = "",
-                symlink_open = "",
-              },
-              git = {
-                unstaged = "✗",
-                staged = "✓",
-                unmerged = "",
-                renamed = "➜",
-                untracked = "★",
-                deleted = "",
-                ignored = "◌",
-              },
-            },
-          },
-          special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
-          symlink_destination = true,
-        },
-        hijack_directories = {
-          enable = true,
-          auto_open = false,
-        },
-        git = {
-          enable = true,
-          ignore = false,
-          show_on_dirs = true,
-          show_on_open_dirs = true,
-          timeout = 400,
-        },
-        open_on_tab = false,
-        actions = {
-          open_file = {
-            quit_on_open = true,
-          },
-        },
-      })
+	{
+		"nvim-tree/nvim-tree.lua",
+		version = "*",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
+		config = function()
+			require("nvim-tree").setup({
+				renderer = {
+					icons = {
+						webdev_colors = true,
+						git_placement = "before",
+						padding = " ",
+						symlink_arrow = " ➛ ",
+						show = {
+							file = true,
+							folder = true,
+							folder_arrow = true,
+							git = true,
+						},
+						glyphs = {
+							default = "",
+							symlink = "",
+							folder = {
+								arrow_closed = "📁",
+								arrow_open = "📂",
+								default = "",
+								open = "",
+								empty = "",
+								empty_open = "",
+								symlink = "",
+								symlink_open = "",
+							},
+							git = {
+								unstaged = "✗",
+								staged = "✓",
+								unmerged = "",
+								renamed = "➜",
+								untracked = "★",
+								deleted = "",
+								ignored = "◌",
+							},
+						},
+					},
+					special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+					symlink_destination = true,
+				},
+				hijack_directories = {
+					enable = true,
+					auto_open = false,
+				},
+				git = {
+					enable = true,
+					ignore = false,
+					show_on_dirs = true,
+					show_on_open_dirs = true,
+					timeout = 400,
+				},
+				open_on_tab = false,
+				actions = {
+					open_file = {
+						quit_on_open = true,
+					},
+				},
+			})
 
-      vim.api.nvim_create_autocmd("VimEnter", {
-        callback = function(data)
-          local directory = vim.fn.isdirectory(data.file) == 1
-          if directory then
-            require("nvim-tree.api").tree.open()
-          end
-        end,
-      })
-    end,
-  },
+			vim.api.nvim_create_autocmd("VimEnter", {
+				callback = function(data)
+					local directory = vim.fn.isdirectory(data.file) == 1
+					if directory then
+						require("nvim-tree.api").tree.open()
+					end
+				end,
+			})
+		end,
+	},
 
-  "tpope/vim-fugitive",
+	"tpope/vim-fugitive",
 
-	"github/copilot.vim", -- Legal cheating
+	{
+		"github/copilot.vim",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			-- Disable copilot by default
+			vim.g.copilot_enabled = false
+
+			-- Create commands and keymaps to enable/disable Copilot
+			vim.api.nvim_create_user_command("EnableCopilot", function()
+				vim.cmd("Copilot enable")
+				print("Copilot enabled")
+			end, {})
+
+			vim.api.nvim_create_user_command("DisableCopilot", function()
+				vim.cmd("Copilot disable")
+				print("Copilot disabled")
+			end, {})
+
+			-- Add keymaps
+			vim.keymap.set(
+				"n",
+				"<leader>ce",
+				":EnableCopilot<CR>",
+				{ noremap = true, silent = true, desc = "Enable Copilot" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>cd",
+				":DisableCopilot<CR>",
+				{ noremap = true, silent = true, desc = "Disable Copilot" }
+			)
+		end,
+	},
 
 	-- "gc" to comment visual regions/lines
 	{ "numToStr/Comment.nvim", opts = {} },
@@ -287,12 +342,13 @@ require("lazy").setup({
 			},
 
 			{
-        "nvim-telescope/telescope-ui-select.nvim" 
-      },
+				"nvim-telescope/telescope-ui-select.nvim",
+			},
 
 			{
-        "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font 
-      },
+				"nvim-tree/nvim-web-devicons",
+				enabled = vim.g.have_nerd_font,
+			},
 		},
 		config = function()
 			-- [[ Configure Telescope ]]
@@ -386,7 +442,11 @@ require("lazy").setup({
 
 					-- Fuzzy find all the symbols in your current workspace.
 					--  Similar to document symbols, except searches over your entire project.
-					map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+					map(
+						"<leader>ws",
+						require("telescope.builtin").lsp_dynamic_workspace_symbols,
+						"[W]orkspace [S]ymbols"
+					)
 
 					-- Rename the variable under your cursor.
 					--  Most Language Servers support renaming across files, etc.
@@ -470,6 +530,8 @@ require("lazy").setup({
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
+				"prettierd", -- Used to format JavaScript, TypeScript, etc.
+				"prettier", -- Used to format JavaScript, TypeScript, etc.
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -499,15 +561,23 @@ require("lazy").setup({
 			},
 		},
 		opts = {
-			notify_on_error = false,
-			format_on_save = false,
+			notify_on_error = true,
+			format_on_save = true,
 			formatters_by_ft = {
 				lua = { "stylua" },
-				-- Conform can also run multiple formatters sequentially
 				python = { "isort", "black" },
-				-- You can use a sub-list to tell conform to run *until* a formatter
-				-- is found.
 				javascript = { { "prettierd", "prettier" } },
+				typescript = { { "prettierd", "prettier" } },
+				javascriptreact = { { "prettierd", "prettier" } },
+				typescriptreact = { { "prettierd", "prettier" } },
+				json = { { "prettierd", "prettier" } },
+				jsonc = { { "prettierd", "prettier" } },
+				yaml = { { "prettierd", "prettier" } },
+				markdown = { { "prettierd", "prettier" } },
+				html = { { "prettierd", "prettier" } },
+				css = { { "prettierd", "prettier" } },
+				scss = { { "prettierd", "prettier" } },
+				graphql = { { "prettierd", "prettier" } },
 			},
 		},
 	},
@@ -524,8 +594,7 @@ require("lazy").setup({
 					end
 					return "make install_jsregexp"
 				end)(),
-				dependencies = {
-				},
+				dependencies = {},
 			},
 			"saadparwaiz1/cmp_luasnip",
 
@@ -561,10 +630,10 @@ require("lazy").setup({
 					-- Accept ([y]es) the completion.
 					["<C-y>"] = cmp.mapping.confirm({ select = true }),
 
-          -- Tradition enter/tab completion
-					['<CR>'] = cmp.mapping.confirm { select = true },
-					['<Tab>'] = cmp.mapping.select_next_item(),
-					['<S-Tab>'] = cmp.mapping.select_prev_item(),
+					-- Tradition enter/tab completion
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
+					["<Tab>"] = cmp.mapping.select_next_item(),
+					["<S-Tab>"] = cmp.mapping.select_prev_item(),
 
 					["<C-Space>"] = cmp.mapping.complete({}),
 
@@ -591,7 +660,7 @@ require("lazy").setup({
 		end,
 	},
 
--- [[ COLORSCHEMES ]]
+	-- [[ COLORSCHEMES ]]
 
 	{
 		-- github dark theme configuration
@@ -617,7 +686,7 @@ require("lazy").setup({
 		{
 			"rose-pine/neovim",
 			name = "rose-pine",
-			priority = 3, 
+			priority = 3,
 			config = function()
 				require("rose-pine").setup({
 					variant = "main",
@@ -656,12 +725,12 @@ require("lazy").setup({
 			priority = 4,
 			config = function()
 				require("catppuccin").setup({
-          -- if anything
+					-- if anything
 				})
 				vim.cmd("colorscheme catppuccin")
-        vim.cmd("highlight Normal guibg=#000000")
+				vim.cmd("highlight Normal guibg=#000000")
 			end,
-		}
+		},
 	},
 
 	{ -- Collection of various small independent plugins/modules
@@ -759,7 +828,6 @@ require("lazy").setup({
 			--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 		end,
 	},
-
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
