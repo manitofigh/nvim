@@ -5,21 +5,33 @@ vim.g.maplocalleader = " "
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
-if vim.fn.has("unix") == 1 then
-	if vim.fn.executable("xclip") == 1 then
-		vim.g.clipboard = {
-			name = "xclip",
-			copy = {
-				["+"] = "xclip -selection clipboard",
-				["*"] = "xclip -selection clipboard",
-			},
-			paste = {
-				["+"] = "xclip -selection clipboard -o",
-				["*"] = "xclip -selection clipboard -o",
-			},
-			cache_enabled = 1,
-		}
-	end
+-- Detect the operating system
+local is_mac = vim.fn.has("macunix") == 1
+local is_linux = vim.fn.has("unix") == 1 and not is_mac
+local is_win = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
+
+-- Set the clipboard provider based on the operating system
+if is_mac then
+	vim.g.clipboard = {
+		name = "pbcopy",
+		copy = { ["+"] = "pbcopy", ["*"] = "pbcopy" },
+		paste = { ["+"] = "pbpaste", ["*"] = "pbpaste" },
+		cache_enabled = 1,
+	}
+elseif is_linux then
+	vim.g.clipboard = {
+		name = "xclip",
+		copy = { ["+"] = "xclip -selection clipboard", ["*"] = "xclip -selection clipboard" },
+		paste = { ["+"] = "xclip -selection clipboard -o", ["*"] = "xclip -selection clipboard -o" },
+		cache_enabled = 1,
+	}
+elseif is_win then
+	vim.g.clipboard = {
+		name = "win32yank",
+		copy = { ["+"] = "clip.exe", ["*"] = "clip.exe" },
+		paste = { ["+"] = "powershell -command Get-Clipboard", ["*"] = "powershell -command Get-Clipboard" },
+		cache_enabled = 1,
+	}
 end
 
 -- [[ Setting options ]]
