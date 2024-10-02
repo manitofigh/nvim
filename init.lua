@@ -64,6 +64,9 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Don't show depracated warnings
+vim.deprecate = function() end
+
 -- custom
 vim.keymap.set("n", "<leader>po", "<cmd>Vex<CR>", { desc = "[P]roject [O]pen vertically" })
 vim.keymap.set("n", "<leader><CR>", "<cmd>Lazy sync<CR>")
