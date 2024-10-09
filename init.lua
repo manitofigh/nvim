@@ -520,6 +520,8 @@ require("lazy").setup({
 			local servers = {
 				clangd = {},
 				gopls = {},
+				csharp_ls = {},
+				jdtls = {},
 				pyright = {},
 				rust_analyzer = {},
 				solargraph = {},
@@ -595,6 +597,11 @@ require("lazy").setup({
 				graphql = { { "prettierd", "prettier" } },
 			},
 		},
+	},
+
+	{
+		"mfussenegger/nvim-jdtls",
+		ft = "java", -- java development
 	},
 
 	{ -- Autocompletion
@@ -828,6 +835,7 @@ require("lazy").setup({
 			ensure_installed = {
 				"bash",
 				"c",
+				"c_sharp",
 				"cpp",
 				"diff",
 				"html",
@@ -841,6 +849,7 @@ require("lazy").setup({
 				"yaml",
 				"typescript",
 				"javascript",
+				"java",
 				"ruby",
 				"python",
 				"rust",
