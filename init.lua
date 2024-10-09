@@ -5,21 +5,33 @@ vim.g.maplocalleader = " "
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
-if vim.fn.has("unix") == 1 then
-	if vim.fn.executable("xclip") == 1 then
-		vim.g.clipboard = {
-			name = "xclip",
-			copy = {
-				["+"] = "xclip -selection clipboard",
-				["*"] = "xclip -selection clipboard",
-			},
-			paste = {
-				["+"] = "xclip -selection clipboard -o",
-				["*"] = "xclip -selection clipboard -o",
-			},
-			cache_enabled = 1,
-		}
-	end
+-- Detect the operating system
+local is_mac = vim.fn.has("macunix") == 1
+local is_linux = vim.fn.has("unix") == 1 and not is_mac
+local is_win = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
+
+-- Set the clipboard provider based on the operating system
+if is_mac then
+	vim.g.clipboard = {
+		name = "pbcopy",
+		copy = { ["+"] = "pbcopy", ["*"] = "pbcopy" },
+		paste = { ["+"] = "pbpaste", ["*"] = "pbpaste" },
+		cache_enabled = 1,
+	}
+elseif is_linux then
+	vim.g.clipboard = {
+		name = "xclip",
+		copy = { ["+"] = "xclip -selection clipboard", ["*"] = "xclip -selection clipboard" },
+		paste = { ["+"] = "xclip -selection clipboard -o", ["*"] = "xclip -selection clipboard -o" },
+		cache_enabled = 1,
+	}
+elseif is_win then
+	vim.g.clipboard = {
+		name = "win32yank",
+		copy = { ["+"] = "clip.exe", ["*"] = "clip.exe" },
+		paste = { ["+"] = "powershell -command Get-Clipboard", ["*"] = "powershell -command Get-Clipboard" },
+		cache_enabled = 1,
+	}
 end
 
 -- [[ Setting options ]]
@@ -80,6 +92,9 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+
+-- Don't show depracated warnings
+vim.deprecate = function() end
 
 -- custom
 vim.keymap.set("n", "<leader>po", "<cmd>Vex<CR>", { desc = "[P]roject [O]pen vertically" })
@@ -756,7 +771,42 @@ require("lazy").setup({
 			--  and try some other statusline plugin
 			local statusline = require("mini.statusline")
 			-- set use_icons to true if you have a Nerd Font
-			statusline.setup({ use_icons = vim.g.have_nerd_font })
+			statusline.setup({
+				use_icons = vim.g.have_nerd_font,
+				content = {
+					active = function()
+						local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
+						local git = statusline.section_git({ trunc_width = 75 })
+						local diagnostics = statusline.section_diagnostics({ trunc_width = 75 })
+						local filename = statusline.section_filename({ trunc_width = 140 })
+						local fileinfo = statusline.section_fileinfo({ trunc_width = 120 })
+						local location = statusline.section_location({ trunc_width = 75 })
+
+						return statusline.combine_groups({
+							{ hl = mode_hl, strings = { mode } },
+							{ hl = "MiniStatuslineDevinfo", strings = { git, diagnostics } },
+							"%<", -- Mark general truncate point
+							{ hl = "MiniStatuslineFilename", strings = { filename } },
+							"%=", -- End left alignment
+							{ hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+							{ hl = mode_hl, strings = { location } },
+						})
+					end,
+				},
+			})
+
+			local function get_git_branch()
+				local branch = vim.fn.system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+				if vim.v.shell_error ~= 0 then
+					return ""
+				end
+				return branch
+			end
+
+			statusline.section_git = function()
+				local branch = get_git_branch()
+				return branch ~= "" and "  " .. branch or ""
+			end
 
 			-- You can configure sections in the statusline by overriding their
 			-- default behavior. For example, here we set the section for
