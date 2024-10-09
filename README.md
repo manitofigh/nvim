@@ -8,25 +8,25 @@ Literally just my `init.lua` for nvim configuration. I'm just a nice guy and lik
 
 ```bash
 sudo apt update
-sudo apt install git curl unzip nodejs npm python3 python3-pip ripgrep
+sudo apt install git curl unzip nodejs npm python3 python3-pip ripgrep fzf
 ```
 
 #### Fedora
 
 ```bash
-sudo dnf install git curl unzip nodejs npm python3 python3-pip ripgrep
+sudo dnf install git curl unzip nodejs npm python3 python3-pip ripgrep fzf
 ```
 
 #### Arch
 
 ```bash
-sudo pacman -S git curl unzip nodejs npm python3 python-pip ripgrep
+sudo pacman -S git curl unzip nodejs npm python3 python-pip ripgrep fzf
 ```
 
 #### CentOS/RHEL
 
 ```bash
-sudo yum install git curl unzip nodejs npm python3 python3-pip ripgrep
+sudo yum install git curl unzip nodejs npm python3 python3-pip ripgrep fzf
 ```
 
 ### macOS
@@ -34,7 +34,7 @@ sudo yum install git curl unzip nodejs npm python3 python3-pip ripgrep
 (Assuming [brew](https://brew.sh/) is installed)
 
 ```bash
-brew install git curl unzip node python ripgrep
+brew install git curl unzip node python ripgrep fzf
 ```
 
 ## Neovim Installation
