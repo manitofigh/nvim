@@ -1,68 +1,88 @@
-Literally just my `init.lua` for nvim configuration in case I wanted to use it on another machine.
+Literally just my `init.lua` for nvim configuration. I'm just a nice guy and like sharing yk...
+
 ## Prerequisites
 
 ### Linux
+
 #### Ubuntu/Debian
+
 ```bash
 sudo apt update
 sudo apt install git curl unzip nodejs npm python3 python3-pip ripgrep
 ```
 
 #### Fedora
+
 ```bash
 sudo dnf install git curl unzip nodejs npm python3 python3-pip ripgrep
 ```
 
 #### Arch
+
 ```bash
 sudo pacman -S git curl unzip nodejs npm python3 python-pip ripgrep
 ```
 
 #### CentOS/RHEL
+
 ```bash
 sudo yum install git curl unzip nodejs npm python3 python3-pip ripgrep
 ```
 
 ### macOS
+
 (Assuming [brew](https://brew.sh/) is installed)
+
 ```bash
 brew install git curl unzip node python ripgrep
 ```
 
 ## Neovim Installation
 
-### macOS 
+### macOS
+
 ```bash
 brew install neovim
 ```
 
 ### Linux
+
 #### Ubuntu/Debian
+
 ```bash
 sudo apt install neovim
 ```
+
 #### Fedora
+
 ```bash
 sudo dnf install neovim
 ```
+
 #### Arch
+
 ```bash
 sudo pacman -S neovim
 ```
+
 #### CentOS/RHEL
+
 ```bash
 sudo yum install epel-release
 sudo yum install neovim
 ```
 
 ## Plugin Dependencies
+
 ```bash
 npm install -g neovim
 pip3 install pynvim
 ```
 
 ## Configuration
+
 Clone the configuration:
+
 ```bash
 git clone https://github.com/manitofigh/nvim.git ~/.config/nvim
 ```
