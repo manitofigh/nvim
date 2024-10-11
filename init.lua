@@ -93,6 +93,16 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Enable spell checking
+vim.opt.spell = true
+vim.opt.spelllang = { "en_us" }
+
+-- Spell-check key mappings
+vim.keymap.set("n", "<leader>sc", ":set spell!<CR>", { desc = "Toggle [S]pell [C]hecking" })
+vim.keymap.set("n", "[s", "[s", { desc = "Go to previous misspelled word" })
+vim.keymap.set("n", "]s", "]s", { desc = "Go to next misspelled word" })
+vim.keymap.set("n", "z=", "z=", { desc = "Show spelling suggestions" })
+
 -- Don't show depracated warnings
 vim.deprecate = function() end
 
