@@ -34,6 +34,30 @@ elseif is_win then
 	}
 end
 
+--  LSP sign stuff
+local signs = {
+	Error = "",
+ 	Warn = "",
+ 	Hint = "",
+ 	Info = "",
+}
+
+for type, icon in pairs(signs) do
+	local hl = "DiagnosticSign" .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+-- Customize diagnostic appearance
+vim.diagnostic.config({
+	virtual_text = {
+		prefix = "●", -- Could be '■', '▎', 'x'
+	},
+	signs = true,
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
+})
+
 -- [[ Setting options ]]
 -- NOTE: You can change these options as you wish!
 
@@ -433,6 +457,11 @@ require("lazy").setup({
 
 	{ -- LSP Configuration & Plugins
 		"neovim/nvim-lspconfig",
+    opts = {
+      diagnostics = {
+        signs = true,
+      },
+    },
 		dependencies = {
 			-- Automatically install LSPs and related tools to stdpath for Neovim
 			{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
@@ -562,6 +591,16 @@ require("lazy").setup({
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
+			-- require("mason-tool-installer").setup({
+			-- 	ensure_installed = {
+			-- 		"debugpy", -- Python debugger
+			-- 		"node-debug2-adapter", -- Node.js debugger
+			-- 		"java-debug-adapter", -- Java debugger
+			-- 		"java-test", -- Java test runner
+			-- 		"netcoredbg", -- .NET Core debugger
+			-- 	},
+			-- })
+
 			require("mason-lspconfig").setup({
 				handlers = {
 					function(server_name)
@@ -574,40 +613,182 @@ require("lazy").setup({
 		end,
 	},
 
-	{ -- Autoformat
-		"stevearc/conform.nvim",
-		lazy = false,
-		keys = {
-			{
-				"<leader>f",
-				function()
-					require("conform").format({ async = true, lsp_fallback = true })
-				end,
-				mode = "",
-				desc = "[F]ormat buffer",
-			},
-		},
-		opts = {
-			notify_on_error = true,
-			format_on_save = true,
-			formatters_by_ft = {
-				lua = { "stylua" },
-				python = { "isort", "black" },
-				javascript = { { "prettierd", "prettier" } },
-				typescript = { { "prettierd", "prettier" } },
-				javascriptreact = { { "prettierd", "prettier" } },
-				typescriptreact = { { "prettierd", "prettier" } },
-				json = { { "prettierd", "prettier" } },
-				jsonc = { { "prettierd", "prettier" } },
-				yaml = { { "prettierd", "prettier" } },
-				markdown = { { "prettierd", "prettier" } },
-				html = { { "prettierd", "prettier" } },
-				css = { { "prettierd", "prettier" } },
-				scss = { { "prettierd", "prettier" } },
-				graphql = { { "prettierd", "prettier" } },
-			},
-		},
-	},
+	-- Debugging
+	-- {
+	-- 	"mfussenegger/nvim-dap",
+	-- 	dependencies = {
+	-- 		"rcarriga/nvim-dap-ui",
+	-- 		"nvim-telescope/telescope-dap.nvim",
+	-- 		"mfussenegger/nvim-dap-python", -- Python
+	-- 		"microsoft/vscode-node-debug2", -- Node.js
+	-- 		"mfussenegger/nvim-jdtls", -- Java
+	-- 	},
+	-- 	config = function()
+	-- 		local dap = require("dap")
+	-- 		local dapui = require("dapui")
+	--
+	-- 		dapui.setup()
+	--
+	-- 		dap.listeners.after.event_initialized["dapui_config"] = function()
+	-- 			dapui.open()
+	-- 		end
+	-- 		dap.listeners.before.event_terminated["dapui_config"] = function()
+	-- 			dapui.close()
+	-- 		end
+	-- 		dap.listeners.before.event_exited["dapui_config"] = function()
+	-- 			dapui.close()
+	-- 		end
+	--
+	-- 		-- Keymaps
+	-- 		vim.keymap.set("n", "<F5>", function()
+	-- 			dap.continue()
+	-- 		end)
+	-- 		vim.keymap.set("n", "<F10>", function()
+	-- 			dap.step_over()
+	-- 		end)
+	-- 		vim.keymap.set("n", "<F11>", function()
+	-- 			dap.step_into()
+	-- 		end)
+	-- 		vim.keymap.set("n", "<F12>", function()
+	-- 			dap.step_out()
+	-- 		end)
+	-- 		vim.keymap.set("n", "<Leader>b", function()
+	-- 			dap.toggle_breakpoint()
+	-- 		end)
+	-- 		vim.keymap.set("n", "<Leader>B", function()
+	-- 			dap.set_breakpoint()
+	-- 		end)
+	-- 		vim.keymap.set("n", "<Leader>lp", function()
+	-- 			dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+	-- 		end)
+	-- 		vim.keymap.set("n", "<Leader>dr", function()
+	-- 			dap.repl.open()
+	-- 		end)
+	-- 		vim.keymap.set("n", "<Leader>dl", function()
+	-- 			dap.run_last()
+	-- 		end)
+	--
+	-- 		-- C
+	-- 		dap.adapters.cppdbg = {
+	-- 			id = "cppdbg",
+	-- 			type = "executable",
+	-- 			command = "/path/to/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
+	-- 		}
+	-- 		dap.configurations.c = {
+	-- 			{
+	-- 				name = "Launch file",
+	-- 				type = "cppdbg",
+	-- 				request = "launch",
+	-- 				program = function()
+	-- 					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+	-- 				end,
+	-- 				cwd = "${workspaceFolder}",
+	-- 				stopOnEntry = true,
+	-- 			},
+	-- 		}
+	--
+	-- 		-- Python
+	-- 		require("dap-python").setup("python")
+	--
+	-- 		-- TypeScript/JavaScript (including TSX/JSX)
+	-- 		dap.adapters.node2 = {
+	-- 			type = "executable",
+	-- 			command = "node",
+	-- 			args = { os.getenv("HOME") .. "/path/to/vscode-node-debug2/out/src/nodeDebug.js" },
+	-- 		}
+	-- 		dap.configurations.typescript = {
+	-- 			{
+	-- 				name = "Launch",
+	-- 				type = "node2",
+	-- 				request = "launch",
+	-- 				program = "${file}",
+	-- 				cwd = vim.fn.getcwd(),
+	-- 				sourceMaps = true,
+	-- 				protocol = "inspector",
+	-- 				console = "integratedTerminal",
+	-- 			},
+	-- 		}
+	-- 		dap.configurations.javascript = dap.configurations.typescript
+	-- 		dap.configurations.typescriptreact = dap.configurations.typescript
+	-- 		dap.configurations.javascriptreact = dap.configurations.typescript
+	--
+	-- 		-- Node.js
+	-- 		dap.configurations.javascript = {
+	-- 			{
+	-- 				name = "Launch",
+	-- 				type = "node2",
+	-- 				request = "launch",
+	-- 				program = "${file}",
+	-- 				cwd = vim.fn.getcwd(),
+	-- 				sourceMaps = true,
+	-- 				protocol = "inspector",
+	-- 				console = "integratedTerminal",
+	-- 			},
+	-- 			{
+	-- 				name = "Attach to process",
+	-- 				type = "node2",
+	-- 				request = "attach",
+	-- 				processId = require("dap.utils").pick_process,
+	-- 			},
+	-- 		}
+	--
+	-- 		-- Java
+	-- 		-- This requires nvim-jdtls to be properly set up
+	-- 		-- The configuration for Java debugging will be handled by nvim-jdtls
+	--
+	-- 		-- C#
+	-- 		dap.adapters.coreclr = {
+	-- 			type = "executable",
+	-- 			command = "/path/to/netcoredbg",
+	-- 			args = { "--interpreter=vscode" },
+	-- 		}
+	-- 		dap.configurations.cs = {
+	-- 			{
+	-- 				type = "coreclr",
+	-- 				name = "launch - netcoredbg",
+	-- 				request = "launch",
+	-- 				program = function()
+	-- 					return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/bin/Debug/", "file")
+	-- 				end,
+	-- 			},
+	-- 		}
+	-- 	end,
+	-- },
+	--
+	-- { -- Autoformat
+	-- 	"stevearc/conform.nvim",
+	-- 	lazy = false,
+	-- 	keys = {
+	-- 		{
+	-- 			"<leader>f",
+	-- 			function()
+	-- 				require("conform").format({ async = true, lsp_fallback = true })
+	-- 			end,
+	-- 			mode = "",
+	-- 			desc = "[F]ormat buffer",
+	-- 		},
+	-- 	},
+	-- 	opts = {
+	-- 		notify_on_error = true,
+	-- 		format_on_save = true,
+	-- 		formatters_by_ft = {
+	-- 			lua = { "stylua" },
+	-- 			python = { "isort", "black" },
+	-- 			javascript = { { "prettierd", "prettier" } },
+	-- 			typescript = { { "prettierd", "prettier" } },
+	-- 			javascriptreact = { { "prettierd", "prettier" } },
+	-- 			typescriptreact = { { "prettierd", "prettier" } },
+	-- 			json = { { "prettierd", "prettier" } },
+	-- 			jsonc = { { "prettierd", "prettier" } },
+	-- 			yaml = { { "prettierd", "prettier" } },
+	-- 			markdown = { { "prettierd", "prettier" } },
+	-- 			html = { { "prettierd", "prettier" } },
+	-- 			css = { { "prettierd", "prettier" } },
+	-- 			scss = { { "prettierd", "prettier" } },
+	-- 			graphql = { { "prettierd", "prettier" } },
+	-- 		},
+	-- 	},
+	-- },
 
 	{
 		"mfussenegger/nvim-jdtls",
