@@ -895,11 +895,11 @@ require("lazy").setup({
 			end,
 		},
 
-		-- Rose Pine configuration
+		-- Rose Pine configuration (default)
 		{
 			"rose-pine/neovim",
 			name = "rose-pine",
-			priority = 3,
+			priority = 4,
 			config = function()
 				require("rose-pine").setup({
 					variant = "main",
@@ -928,20 +928,20 @@ require("lazy").setup({
 						-- Your before_highlight function here
 					end,
 				})
-				-- vim.cmd("colorscheme rose-pine-main")
+				vim.cmd("colorscheme rose-pine-main")
 			end,
 		},
 
 		{
 			"catppuccin/nvim",
 			name = "catppuccin",
-			priority = 4,
+			priority = 3,
 			config = function()
 				require("catppuccin").setup({
 					-- if anything
 				})
-				vim.cmd("colorscheme catppuccin")
-				vim.cmd("highlight Normal guibg=#000000")
+				-- vim.cmd("colorscheme catppuccin")
+				-- vim.cmd("highlight Normal guibg=#000000")
 			end,
 		},
 	},
