@@ -193,6 +193,8 @@ require("lazy").setup({
 
 	"mbbill/undotree", -- Undo tree
 
+  "adelarsq/neofsharp.vim", -- F# syntax
+
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		dependencies = "nvim-treesitter/nvim-treesitter",
