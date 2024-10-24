@@ -121,6 +121,31 @@ vim.opt.scrolloff = 10
 vim.opt.spell = true
 vim.opt.spelllang = { "en_us" }
 
+-- Disable some unused built-in plugins
+local disabled_built_ins = {
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    "gzip",
+    "zip",
+    "zipPlugin",
+    "tar",
+    "tarPlugin",
+    "getscript",
+    "getscriptPlugin",
+    "vimball",
+    "vimballPlugin",
+    "2html_plugin",
+    "logipat",
+    "rrhelper",
+    "spellfile_plugin",
+}
+
+for _, plugin in pairs(disabled_built_ins) do
+    vim.g["loaded_" .. plugin] = 1
+end
+
 -- Spell-check key mappings
 vim.keymap.set("n", "<leader>sc", ":set spell!<CR>", { desc = "Toggle [S]pell [C]hecking" })
 vim.keymap.set("n", "[s", "[s", { desc = "Go to previous misspelled word" })
@@ -558,61 +583,104 @@ require("lazy").setup({
 			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 			--  - settings (table): Override the default settings passed when initializing the server.
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-			local servers = {
-				clangd = {},
-				gopls = {},
-				csharp_ls = {},
-				jdtls = {},
-				pyright = {},
-				rust_analyzer = {},
-				solargraph = {},
-				tsserver = {},
 
-				lua_ls = {
-					settings = {
-						Lua = {
-							completion = {
-								callSnippet = "Replace",
-							},
-							-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-							diagnostics = { disable = { "missing-fields" } },
-						},
-					},
-				},
-			}
+      local servers = {
+        clangd = {
+          ft = { "c", "cpp", "h", "hpp" },
+          mason_name = "clangd"
+        },
+        gopls = {
+          ft = { "go" },
+          mason_name = "gopls"
+        },
+        csharp_ls = {
+          ft = { "cs" },
+          mason_name = "csharp-language-server"
+        },
+        jdtls = {
+          ft = { "java" },
+          mason_name = "jdtls"
+        },
+        pyright = {
+          ft = { "python" },
+          mason_name = "pyright"
+        },
+        rust_analyzer = {
+          ft = { "rust" },
+          mason_name = "rust-analyzer"
+        },
+        solargraph = {
+          ft = { "ruby" },
+          mason_name = "solargraph"
+        },
+        tsserver = {
+          ft = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
+          mason_name = "typescript-language-server"
+        },
+        lua_ls = {
+          ft = { "lua" },
+          mason_name = "lua-language-server",
+          settings = {
+            Lua = {
+              completion = { callSnippet = "Replace" },
+              diagnostics = { disable = { "missing-fields" } },
+            },
+          },
+        },
+      }
+      --  You can press `g?` for help in this menu.
+      --  You can press `g?` for help in this menu.
+      require("mason").setup({
+        ui = {
+          check_outdated_packages_on_open = false, -- Performance optimization
+        },
+        max_concurrent_installers = 4, -- Limit concurrent installations
+      })
 
-			--  You can press `g?` for help in this menu.
-			require("mason").setup()
+      -- Extract Mason package names from servers
+      local ensure_installed = {}
+      for server_name, server in pairs(servers) do
+        if server.mason_name then
+          table.insert(ensure_installed, server.mason_name)
+        end
+      end
 
-			-- You can add other tools here that you want Mason to install
-			local ensure_installed = vim.tbl_keys(servers or {})
-			vim.list_extend(ensure_installed, {
-				"stylua", -- Used to format Lua code
-				"prettierd", -- Used to format JavaScript, TypeScript, etc.
-				"prettier", -- Used to format JavaScript, TypeScript, etc.
-			})
-			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+      -- Add formatters and other tools
+      vim.list_extend(ensure_installed, {
+        "stylua",     -- Used to format Lua code
+        "prettierd",  -- Used to format JavaScript, TypeScript, etc.
+        "prettier",   -- Used to format JavaScript, TypeScript, etc.
+        -- Uncomment if you need these debuggers
+        -- "debugpy",            -- Python debugger
+        -- "node-debug2-adapter", -- Node.js debugger
+        -- "java-debug-adapter",  -- Java debugger
+        -- "java-test",          -- Java test runner
+        -- "netcoredbg",         -- .NET Core debugger
+      })
 
-			-- require("mason-tool-installer").setup({
-			-- 	ensure_installed = {
-			-- 		"debugpy", -- Python debugger
-			-- 		"node-debug2-adapter", -- Node.js debugger
-			-- 		"java-debug-adapter", -- Java debugger
-			-- 		"java-test", -- Java test runner
-			-- 		"netcoredbg", -- .NET Core debugger
-			-- 	},
-			-- })
+      require("mason-tool-installer").setup({ 
+        ensure_installed = ensure_installed,
+        auto_update = false,      -- Don't auto update
+        run_on_start = true,      -- Install tools on startup
+      })
 
-			require("mason-lspconfig").setup({
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
-					end,
-				},
-			})
-		end,
+      require("mason-lspconfig").setup({
+        handlers = {
+          function(server_name)
+            local server = servers[server_name] or {}
+            -- Merge capabilities
+            server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+            -- Setup the server with merged capabilities
+            require("lspconfig")[server_name].setup({
+              -- Merge the server config with file type-based lazy loading
+              capabilities = server.capabilities,
+              filetypes = server.ft,  -- Use the file types from our servers table
+              settings = server.settings, -- Use any custom settings
+            })
+          end,
+        },
+      })
+    end,
 	},
 
 	-- Debugging
