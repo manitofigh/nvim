@@ -1,6 +1,5 @@
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -168,18 +167,13 @@ vim.keymap.set("v", "<leader>p", '"_dP', { noremap = true }) -- replace what is 
 vim.keymap.set("n", "<leader>j", ":cnext<CR>", { noremap = true, silent = true, desc = "Next quickfix item" })
 vim.keymap.set("n", "<leader>k", ":cprev<CR>", { noremap = true, silent = true, desc = "Previous quickfix item" })
 vim.keymap.set("n", "<leader>st", ":NvimTreeToggle<CR>", { desc = "[S]idebar [T]oggle" })
-vim.keymap.set(
-	"n",
-	"<leader>D",
-	":%d _<CR>",
-	{ noremap = true, silent = true, desc = "[D]elete whole content to blackhole" }
-)
+vim.keymap.set( "n", "<leader>D", ":%d _<CR>", { noremap = true, silent = true, desc = "[D]elete whole content to blackhole" })
 vim.keymap.set("n", "<leader>W", ":w<CR>", { noremap = true, silent = true, desc = "[W]rite" })
 vim.keymap.set("n", "<leader>X", ":x<CR>", { noremap = true, silent = true, desc = "E[x]it" })
 vim.keymap.set("n", "<leader>Q", ":q<CR>", { noremap = true, silent = true, desc = "[Q]uit" })
 vim.keymap.set("n", "x", '"_x', { noremap = true, silent = true })
 
--- Set highlight on earch, but clear on pressing <Esc> in normal mode
+-- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set("n", "<leader>no", "<cmd>nohlsearch<CR>", { desc = "[NO] highlight" })
 
@@ -1068,7 +1062,34 @@ require("lazy").setup({
 		},
 	},
 
-	{ -- Collection of various small independent plugins/modules
+  {
+    "ellisonleao/gruvbox.nvim",
+  },
+
+  {
+    "neanias/everforest-nvim",
+    priority = 1,
+    config = function()
+      require("everforest").setup({
+        background = "hard",  -- Use hard background for darkest default
+        transparent_background_level = 0,
+      })
+      -- Hook into the colorscheme to override the background after it's loaded
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "everforest",
+        callback = function()
+          vim.cmd("highlight Normal guibg=#000000")
+          vim.cmd("highlight NormalFloat guibg=#000000")
+          vim.cmd("highlight NonText guibg=#000000")
+          vim.cmd("highlight LineNr guibg=#000000")
+          vim.cmd("highlight SignColumn guibg=#000000")
+          vim.cmd("highlight EndOfBuffer guibg=#000000")
+        end
+      })
+    end
+  },
+
+  { -- Collection of various small independent plugins/modules
 		"echasnovski/mini.nvim",
 		config = function()
 			-- Better Around/Inside textobjects
