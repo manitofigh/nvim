@@ -644,21 +644,26 @@ require("lazy").setup({
           ft = { "cs" },
           mason_name = "csharp-language-server"
         },
+        pylsp = {
+          ft = { "python" },
+          mason_name = "python-lsp-server",
+          settings = {
+            pylsp = {
+              plugins = {
+                pycodestyle = {
+                  enabled = false  -- This disables all the spacing/formatting warnings
+                }
+              }
+            }
+          }
+        },
         jdtls = {
           ft = { "java" },
           mason_name = "jdtls"
         },
-        pyright = {
-          ft = { "python" },
-          mason_name = "pyright"
-        },
         rust_analyzer = {
           ft = { "rust" },
           mason_name = "rust-analyzer"
-        },
-        solargraph = {
-          ft = { "ruby" },
-          mason_name = "solargraph"
         },
         tsserver = {
           ft = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
@@ -1158,15 +1163,11 @@ require("lazy").setup({
 				"typescript",
 				"javascript",
 				"java",
-				"ruby",
 				"python",
 				"rust",
 				"go",
 				"java",
-				"php",
-				"graphql",
 				"toml",
-				"svelte",
 			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,
