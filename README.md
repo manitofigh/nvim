@@ -42,7 +42,7 @@ brew install git curl unzip node python ripgrep fzf
 ### macOS
 
 ```bash
-brew install neovim
+brew install nvim
 ```
 
 ### Linux
