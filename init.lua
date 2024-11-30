@@ -60,6 +60,8 @@ vim.diagnostic.config({
 -- [[ Setting options ]]
 -- NOTE: You can change these options as you wish!
 
+vim.opt.fileformat = "unix"  -- for LF endings
+
 vim.opt.number = true
 
 vim.opt.relativenumber = true
@@ -215,49 +217,58 @@ require("lazy").setup({
   "adelarsq/neofsharp.vim", -- F# syntax
 
   {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    opts = {},
+  },
+
+  {
     "m4xshen/autoclose.nvim",
     event = "InsertEnter", -- Load the plugin when entering insert mode
     opts = {
-        -- Keys configuration with default pairs and behaviors
-        keys = {
-            -- Regular brackets
-            ["("] = { escape = false, close = true, pair = "()" },
-            ["["] = { escape = false, close = true, pair = "[]" },
-            ["{"] = { escape = false, close = true, pair = "{}" },
-            
-            -- Closing brackets (escape functionality)
-            [">"] = { escape = true, close = false, pair = "<>" },
-            [")"] = { escape = true, close = false, pair = "()" },
-            ["]"] = { escape = true, close = false, pair = "[]" },
-            ["}"] = { escape = true, close = false, pair = "{}" },
-            
-            -- Quotes
-            ['"'] = { escape = true, close = true, pair = '""' },
-            ["'"] = { escape = true, close = true, pair = "''" },
-            ["`"] = { escape = true, close = true, pair = "``" },
+      -- Keys configuration with default pairs and behaviors
+      keys = {
+        -- Regular brackets
+        ["("] = { escape = false, close = true, pair = "()" },
+        ["["] = { escape = false, close = true, pair = "[]" },
+        ["{"] = { escape = false, close = true, pair = "{}" },
+
+        -- Closing brackets (escape functionality)
+        [">"] = { escape = true, close = false, pair = "<>" },
+        [")"] = { escape = true, close = false, pair = "()" },
+        ["]"] = { escape = true, close = false, pair = "[]" },
+        ["}"] = { escape = true, close = false, pair = "{}" },
+
+        -- Quotes
+        ['"'] = { escape = true, close = true, pair = '""' },
+        ["'"] = { escape = true, close = true, pair = "''" },
+        ["`"] = { escape = true, close = true, pair = "``" },
+      },
+
+      options = {
+        -- Disable in these filetypes
+        disabled_filetypes = { 
+          "text",
+          "markdown",
+          "TelescopePrompt"
         },
-        
-        options = {
-            -- Disable in these filetypes
-            disabled_filetypes = { 
-                "text",
-                "markdown",
-                "TelescopePrompt"
-            },
-            
-            -- Don't autoclose when cursor touches these characters
-            disable_when_touch = true,
-            touch_regex = "[%w(%[{]",
-            
-            -- Enable pairing spaces inside brackets
-            pair_spaces = true,
-            
-            -- Enable auto-indent feature
-            auto_indent = true,
-            
-            -- Disable in command mode
-            disable_command_mode = true,
-        },
+
+        -- Don't autoclose when cursor touches these characters
+        disable_when_touch = true,
+        touch_regex = "[%w(%[{]",
+
+        -- Enable pairing spaces inside brackets
+        pair_spaces = true,
+
+        -- Enable auto-indent feature
+        auto_indent = true,
+
+        -- Disable in command mode
+        disable_command_mode = true,
+      },
     },
   },
 
@@ -311,6 +322,9 @@ require("lazy").setup({
 	{
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
+    hijack_directories = {
+      enable = false,
+    },
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
@@ -645,7 +659,8 @@ require("lazy").setup({
             pylsp = {
               plugins = {
                 pycodestyle = {
-                  enabled = false  -- This disables all the spacing/formatting warnings
+                  -- This disables all the spacing/formatting warnings
+                  enabled = false
                 }
               }
             }
